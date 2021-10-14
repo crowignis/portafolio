@@ -9,82 +9,117 @@ from django.db import models
 
 
 class Administrador(models.Model):
-    idadmin = models.AutoField(primary_key=True)
-    nombreadmin = models.CharField(max_length=30, blank=True, null=True)
-    passadmin = models.CharField(max_length=30, blank=True, null=True)
-    fechaingreso = models.DateField(blank=True, null=True)
+    id_administrador = models.AutoField(primary_key=True)
+    id_pedido_producto = models.ForeignKey('PedidoProducto', models.DO_NOTHING, db_column='id_pedido_producto')
+    id_usuario = models.ForeignKey('Usuarios', models.DO_NOTHING, db_column='id_usuario')
 
     class Meta:
         managed = False
         db_table = 'administrador'
 
 
+class Bodega(models.Model):
+    id_bodega = models.BigIntegerField(primary_key=True)
+    id_producto = models.ForeignKey('Productos', models.DO_NOTHING, db_column='id_producto')
+    stock = models.BigIntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'bodega'
+
+
 class Cliente(models.Model):
-    idcliente = models.IntegerField(primary_key=True)
-    nombrecliente = models.CharField(max_length=30, blank=True, null=True)
-    mesa_idmesa = models.ForeignKey('Mesa', models.DO_NOTHING, db_column='mesa_idmesa')
+    id_cliente = models.IntegerField(primary_key=True)
+    id_usuario = models.ForeignKey('Usuarios', models.DO_NOTHING, db_column='id_usuario')
 
     class Meta:
         managed = False
         db_table = 'cliente'
 
 
-class Compra(models.Model):
-    idcompra = models.IntegerField(primary_key=True)
-    fechacompra = models.DateField(blank=True, null=True)
-    horacompra = models.DateField(blank=True, null=True)
-    solicitud_insumos_idsolicitud = models.ForeignKey('SolicitudInsumos', models.DO_NOTHING, db_column='solicitud_insumos_idsolicitud')
-    solicitud_insumos_administrador_idadmin = models.ForeignKey('SolicitudInsumos', related_name='solicitudadmin', on_delete=models.DO_NOTHING ,db_column='solicitud_insumos_administrador_idadmin')
-    valorcompra = models.BigIntegerField(blank=True, null=True)
-    finanzas_finanzas = models.ForeignKey('Finanzas', models.DO_NOTHING)
+class Cocina(models.Model):
+    id_cocina = models.BigIntegerField(primary_key=True)
+    id_pedido = models.ForeignKey('Pedido', models.DO_NOTHING, db_column='id_pedido')
+    id_estado_pedido = models.ForeignKey('EstadoPedido', models.DO_NOTHING, db_column='id_estado_pedido')
 
     class Meta:
         managed = False
-        db_table = 'compra'
+        db_table = 'cocina'
 
 
-class Finanzas(models.Model):
-    idfinanzas = models.BigIntegerField(blank=True, null=True)
-    ingresos = models.BigIntegerField(blank=True, null=True)
-    egresos = models.BigIntegerField(blank=True, null=True)
-    finanzas_id = models.FloatField(primary_key=True)
+class EstadoPedido(models.Model):
+    id_estado_pedido = models.BooleanField(primary_key=True)
 
     class Meta:
         managed = False
-        db_table = 'finanzas'
+        db_table = 'estado_pedido'
 
 
-class Mesa(models.Model):
-    idmesa = models.FloatField(primary_key=True)
-    ubicacion = models.CharField(max_length=100, blank=True, null=True)
-    disponibilidad = models.CharField(max_length=1, blank=True, null=True)
-    nromesa = models.FloatField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'mesa'
-
-
-class Producto(models.Model):
-    idproducto = models.FloatField(primary_key=True)
-    descripcionproducto = models.CharField(max_length=30, blank=True, null=True)
-    solicitud_insumos_idsolicitud = models.ForeignKey('SolicitudInsumos', models.DO_NOTHING, db_column='solicitud_insumos_idsolicitud')
-    cantidad = models.BigIntegerField(blank=True, null=True)
-    solicitud_insumos_administrador_idadmin = models.ForeignKey('SolicitudInsumos', related_name='solicitudInsuAdmin', on_delete= models.DO_NOTHING, db_column='solicitud_insumos_administrador_idadmin')
-    bodega_idproducto = models.CharField(max_length=6)
+class Mesas(models.Model):
+    id_mesa = models.BigIntegerField(primary_key=True)
+    disponibilidad = models.BooleanField(max_length=1)
+    estado_reserva = models.BooleanField(max_length=1)
+    id_cliente = models.ForeignKey(Cliente, models.DO_NOTHING, db_column='id_cliente')
+    numero_mesa = models.BigIntegerField()
 
     class Meta:
         managed = False
-        db_table = 'producto'
-        unique_together = (('idproducto', 'solicitud_insumos_idsolicitud', 'solicitud_insumos_administrador_idadmin', 'bodega_idproducto'),)
+        db_table = 'mesas'
+
+
+class Pedido(models.Model):
+    id_pedido = models.BigIntegerField(primary_key=True)
+    id_mesa = models.ForeignKey(Mesas, models.DO_NOTHING, db_column='id_mesa')
+    fecha_pedido = models.DateField()
+    precio_total = models.BigIntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'pedido'
+
+
+class PedidoProducto(models.Model):
+    id_pedido_producto = models.BigIntegerField(primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'pedido_producto'
+
+
+class PedidosProductoIntermedio(models.Model):
+    id_producto_intermedio = models.BigIntegerField(primary_key=True)
+    id_producto = models.ForeignKey('Productos', models.DO_NOTHING, db_column='id_producto')
+    id_pedido_producto = models.ForeignKey(PedidoProducto, models.DO_NOTHING, db_column='id_pedido_producto')
+    cantidad_producto = models.BigIntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'pedidos_producto_intermedio'
+
+
+class ProductoReceta(models.Model):
+    id_producto_receta = models.BigIntegerField(primary_key=True)
+    id_receta = models.ForeignKey('Receta', models.DO_NOTHING, db_column='id_receta')
+    id_producto = models.ForeignKey(Bodega, models.DO_NOTHING, db_column='id_producto')
+    cantidad_producto = models.BigIntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'producto_receta'
+
+
+class Productos(models.Model):
+    id_producto = models.BigIntegerField(primary_key=True)
+    id_proveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='id_proveedor')
+
+    class Meta:
+        managed = False
+        db_table = 'productos'
 
 
 class Proveedor(models.Model):
-    idproveedor = models.BigIntegerField(primary_key=True)
-    nombreproveedor = models.CharField(max_length=30, blank=True, null=True)
-    correoproveedor = models.CharField(max_length=30, blank=True, null=True)
-    idsolicitud = models.FloatField()
-    idadmin = models.FloatField()
+    id_proveedor = models.BigIntegerField(primary_key=True)
+    nombre_proveedor = models.CharField(max_length=30, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -92,38 +127,30 @@ class Proveedor(models.Model):
 
 
 class Receta(models.Model):
-    idreceta = models.IntegerField(primary_key=True)
-    nombrereceta = models.CharField(max_length=300, blank=True, null=True)
-    valorreceta = models.IntegerField(blank=True, null=True)
-    bodega_idproducto = models.CharField(max_length=6)
-    pedido_idpedido = models.IntegerField()
+    id_receta = models.BigIntegerField(primary_key=True)
+    precio = models.BigIntegerField()
 
     class Meta:
         managed = False
         db_table = 'receta'
-        unique_together = (('idreceta', 'bodega_idproducto', 'pedido_idpedido'),)
 
 
-class SolicitudInsumos(models.Model):
-    idsolicitud = models.IntegerField(primary_key=True)
-    iddetallesolicitud = models.CharField(max_length=300, blank=True, null=True)
-    administrador_idadmin = models.ForeignKey(Administrador, models.DO_NOTHING, db_column='administrador_idadmin')
-    proveedor_idproveedor = models.ForeignKey(Proveedor, models.DO_NOTHING, db_column='proveedor_idproveedor')
-
-    class Meta:
-        managed = False
-        db_table = 'solicitud_insumos'
-        unique_together = (('idsolicitud', 'administrador_idadmin'),)
-
-
-class Venta(models.Model):
-    idventa = models.IntegerField(primary_key=True)
-    fechaventa = models.DateField(blank=True, null=True)
-    horaventa = models.DateField(blank=True, null=True)
-    pedido_idpedido = models.IntegerField()
-    valorventa = models.FloatField(blank=True, null=True)
-    finanzas_finanzas = models.ForeignKey(Finanzas, models.DO_NOTHING)
+class RecetaPedido(models.Model):
+    id_receta_pedido = models.BigIntegerField(primary_key=True)
+    id_receta = models.ForeignKey(Receta, models.DO_NOTHING, db_column='id_receta')
+    id_pedido = models.ForeignKey(Pedido, models.DO_NOTHING, db_column='id_pedido')
+    cantidad_receta = models.BigIntegerField()
 
     class Meta:
         managed = False
-        db_table = 'venta'
+        db_table = 'receta_pedido'
+
+
+class Usuarios(models.Model):
+    id_usuario = models.IntegerField(primary_key=True)
+    nombre = models.CharField(max_length=10)
+    contrasena = models.CharField(max_length=15)
+
+    class Meta:
+        managed = False
+        db_table = 'usuarios'
