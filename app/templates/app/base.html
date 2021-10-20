@@ -1,22 +1,57 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{% block title %}{% endblock %}</title>
+    <title>app</title>
+  
+
+    <link rel="stylesheet" href="{% static 'app\css\style.css' %}">
+
 
 </head>
 <body>
-    <h1>Mi Web Personal</h1>
-    <ul>
-        <li><a href="{% url 'home' %}">Portada</a></li>
-        <li><a href="{% url 'inicio' %}">Acerca de</a></li>
-        <li><a href="{% url 'portfolio' %}">Portafolio</a></li>
-        <li><a href="{% url 'contact' %}">Contacto</a></li>
-    </ul>
 
-    {% block content %}{% endblock %}
+<header>
+    <div class="container">
+        
+        <nav>
+            <ul>
+
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'inicio' %}">Iniciar sesion</a></li>
+                <li><a href="{% url 'registro1' %}">Registro usuario</a></li>
+                <li><a href="#">Contacto</a></li>
+                <li><a href="{% url 'home' %}">salir</a></li>
+            </ul>
+
+        
+        </nav>
+
+
+
+    </div>
+
+
+</header>
+
+<div id= "contenido">
+
+
+
+    {% block contenido %}
+
+    {% endblock %}
+
+
+
+
+</div>
+
+
 
 </body>
 </html>

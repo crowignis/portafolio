@@ -4,6 +4,50 @@
   box-sizing: border-box;
 }
 
+.container {
+
+  width: 80%;
+  margin: 0 auto;
+}
+
+
+header {
+  background: #1f53c5;
+}
+
+header::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+nav {
+  float: right;
+}
+
+nav ul {
+
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+}
+
+nav li{
+
+  display: inline-block;
+  margin-left: 70px ;
+  padding-top: 25px;
+}
+
+nav a{
+color: black;
+text-decoration: black;
+text-transform: uppercase;
+font-size: larger;
+
+}
+
 body {
   
   background: url("../img/fondo.jpg");
@@ -64,3 +108,4 @@ body {
   margin: 16px 0;
   font-size: 16px;
 }
+

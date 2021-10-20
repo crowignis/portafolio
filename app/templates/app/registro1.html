@@ -1,20 +1,19 @@
-{% load static %}
+{% extends 'app/base.html' %}
+
+{% block contenido %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="{% static 'app\css\style.css' %}">
+
   <title>Registro Usuario</title>
 </head>
 <body>
   <section class="form-register">
     <h4>Registro Usuario</h4>
-    <input class="controls" type="text" name="nombres" id="nombres" placeholder="Ingrese su Nombre">
-    <input class="controls" type="text" name="apellidos" id="apellidos" placeholder="Ingrese su Apellido">
-    <input class="controls" type="text" name="Rol Usuario" id="idrol" placeholder="Ingrese su Rol">
-    <input class="controls" type="number" name="numero telefono" id="phone" placeholder="Ingrese su numero de contacto">
+    <input class="controls" type="text" name="nombres" id="nombres" placeholder="Ingrese su Nombre usuario">
     <input class="controls" type="password" name="password" id="password" placeholder="Ingrese su Contraseña">
     
     <input class="botons" type="submit" value="Registrar">
@@ -24,3 +23,5 @@
 
 </body>
 </html>
+
+{% endblock %}

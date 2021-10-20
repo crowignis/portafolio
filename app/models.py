@@ -8,6 +8,7 @@
 from django.db import models
 
 
+
 class Administrador(models.Model):
     id_administrador = models.AutoField(primary_key=True)
     id_pedido_producto = models.ForeignKey('PedidoProducto', models.DO_NOTHING, db_column='id_pedido_producto')
