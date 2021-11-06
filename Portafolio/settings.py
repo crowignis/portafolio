@@ -26,6 +26,8 @@ SECRET_KEY = 'django-insecure-&80z^zsryd3q1c9$^cz8w%%tbz)v%9g!j_1z42ntia^z539e2o
 DEBUG = True
 
 ALLOWED_HOSTS = []
+LOGIN_REDIRECT_URL ='/'
+LOGOUT_REDIRECT_URL = '/'
 
 
 # Application definition
@@ -38,7 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
+    'admin_interface',
+    'crispy_forms',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -78,8 +84,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
         'NAME': '127.0.0.1:1521/xe',
-        'USER': 'PORTAFOLIO2',
-        'PASSWORD': '1234',
+        'USER': 'resto_db',
+        'PASSWORD': 'resto_db02',
         'TEST': {
 
             'USER': 'default_test',

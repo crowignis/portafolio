@@ -1,5 +1,8 @@
 from django import forms
-from .models import Proveedor
+from django.db.models import fields
+from .models import Productos, Proveedor, Receta
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 
 
@@ -8,15 +11,44 @@ class ProveedorForm(forms.ModelForm):
     class Meta:
         model = Proveedor
         fields = [
-            'id_proveedor',
+            
             'nombre_proveedor',
+            'apellido_proveedor',
+            'rut_proveedor',
+            'contacto', 
 
         ]
-        labels = {
-            'id_proveedor': 'ID',
-            'nombre_proveedor': 'Nombre',
-        }
-        widgets = {
-            'id_proveedor': forms.NumberInput(attrs={'class':'form-control'}),
-            'nombre_proveedor': forms.TextInput(attrs={'class':'form-control'}),
-        }
+       
+class ProductoForm(forms.ModelForm):
+    class Meta:
+        model = Productos
+        fields = [
+
+            'id_proveedor',
+            'nombre_producto',
+            'descripcion',
+        
+        
+        
+        
+        ]
+
+
+class RecetaForm(forms.ModelForm):
+    class Meta:
+        model = Receta
+        fields = [ 
+
+            'precio', 
+            'nombre', 
+            'descripcion',
+        ]
+             
+
+
+
+class CustomUserCreationForm(UserCreationForm):
+    
+    class Meta:
+        model = User
+        fields = ['username', "first_name", "last_name", "email", "password1", "password2"]

@@ -1,20 +1,18 @@
 # direcciones de nuetra aplicacion
 
 from django.urls import path
-from .views import home, inicio, registro1, proveedor_view
+from .views import home, proveedor_view, productoView, recetaView, registro
 
 
 
 urlpatterns = [
     path('', home, name="home"),
-    path('inicio/', inicio, name="inicio"),
-    path('registro1/', registro1, name="registro1"),
+    path('registration/registro/',registro, name="registro"),
     path('proveedor/', proveedor_view, name= "proveedor"),
+    path('producto/', productoView, name= "producto"),
+    path('receta/', recetaView, name= "receta"),
 
 
-    
-
-    
     
 ]
 

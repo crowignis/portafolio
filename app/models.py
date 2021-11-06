@@ -8,17 +8,6 @@
 from django.db import models
 
 
-
-class Administrador(models.Model):
-    id_administrador = models.AutoField(primary_key=True)
-    id_pedido_producto = models.ForeignKey('PedidoProducto', models.DO_NOTHING, db_column='id_pedido_producto')
-    id_usuario = models.ForeignKey('Usuarios', models.DO_NOTHING, db_column='id_usuario')
-
-    class Meta:
-        managed = False
-        db_table = 'administrador'
-
-
 class Bodega(models.Model):
     id_bodega = models.BigIntegerField(primary_key=True)
     id_producto = models.ForeignKey('Productos', models.DO_NOTHING, db_column='id_producto')
@@ -30,8 +19,8 @@ class Bodega(models.Model):
 
 
 class Cliente(models.Model):
-    id_cliente = models.IntegerField(primary_key=True)
-    id_usuario = models.ForeignKey('Usuarios', models.DO_NOTHING, db_column='id_usuario')
+    id_cliente = models.BigIntegerField(primary_key=True)
+    nombre_cliente = models.CharField(max_length=20)
 
     class Meta:
         managed = False
@@ -48,18 +37,31 @@ class Cocina(models.Model):
         db_table = 'cocina'
 
 
+
+
+
 class EstadoPedido(models.Model):
-    id_estado_pedido = models.BooleanField(primary_key=True)
+    id_estado_pedido = models.BigIntegerField(primary_key=True)
 
     class Meta:
         managed = False
         db_table = 'estado_pedido'
 
 
+class Finanzas(models.Model):
+    id_finanza = models.BigIntegerField(primary_key=True)
+    id_pedido_producto = models.ForeignKey('PedidoProducto', models.DO_NOTHING, db_column='id_pedido_producto')
+    id_usuario = models.ForeignKey('Usuarios', models.DO_NOTHING, db_column='id_usuario')
+
+    class Meta:
+        managed = False
+        db_table = 'finanzas'
+
+
 class Mesas(models.Model):
     id_mesa = models.BigIntegerField(primary_key=True)
-    disponibilidad = models.BooleanField(max_length=1)
-    estado_reserva = models.BooleanField(max_length=1)
+    disponibilidad = models.CharField(max_length=1)
+    estado_reserva = models.CharField(max_length=1)
     id_cliente = models.ForeignKey(Cliente, models.DO_NOTHING, db_column='id_cliente')
     numero_mesa = models.BigIntegerField()
 
@@ -112,6 +114,8 @@ class ProductoReceta(models.Model):
 class Productos(models.Model):
     id_producto = models.BigIntegerField(primary_key=True)
     id_proveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='id_proveedor')
+    nombre_producto = models.CharField(max_length=20)
+    descripcion = models.CharField(max_length=100)
 
     class Meta:
         managed = False
@@ -121,6 +125,9 @@ class Productos(models.Model):
 class Proveedor(models.Model):
     id_proveedor = models.BigIntegerField(primary_key=True)
     nombre_proveedor = models.CharField(max_length=30, blank=True, null=True)
+    apellido_proveedor = models.CharField(max_length=20)
+    rut_proveedor = models.CharField(max_length=12)
+    contacto = models.IntegerField()
 
     class Meta:
         managed = False
@@ -130,6 +137,8 @@ class Proveedor(models.Model):
 class Receta(models.Model):
     id_receta = models.BigIntegerField(primary_key=True)
     precio = models.BigIntegerField()
+    nombre = models.CharField(max_length=20)
+    descripcion = models.CharField(max_length=100)
 
     class Meta:
         managed = False
@@ -147,8 +156,28 @@ class RecetaPedido(models.Model):
         db_table = 'receta_pedido'
 
 
+class Rol(models.Model):
+    id_rol = models.BigIntegerField(primary_key=True)
+    nombre = models.CharField(max_length=20)
+    descripcion = models.CharField(max_length=200)
+
+    class Meta:
+        managed = False
+        db_table = 'rol'
+
+
+class UsuarioRol(models.Model):
+    id_usuario_rol = models.BigIntegerField(primary_key=True)
+    id_usuario = models.ForeignKey('Usuarios', models.DO_NOTHING, db_column='id_usuario')
+    id_rol = models.ForeignKey(Rol, models.DO_NOTHING, db_column='id_rol')
+
+    class Meta:
+        managed = False
+        db_table = 'usuario_rol'
+
+
 class Usuarios(models.Model):
-    id_usuario = models.IntegerField(primary_key=True)
+    id_usuario = models.BigIntegerField(primary_key=True)
     nombre = models.CharField(max_length=10)
     contrasena = models.CharField(max_length=15)
 

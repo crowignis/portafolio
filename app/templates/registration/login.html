@@ -1,20 +1,16 @@
 {% extends 'app/base.html' %}
 
-{% block title %} Proveedor {% endblock %}
-
 {% block contenido %}
 {% load crispy_forms_tags %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title> Proveedor </title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
  
   
-  
+  <title>Inicio de sesion</title>
 </head>
 <body>
 
@@ -22,14 +18,11 @@
 
     <section class="form-register">
 
-      
-      <h4>Registro Proveedor</h4>
-
-        {% csrf_token %}
-    
-        {{ form | crispy }}
-
-        <input class="botons" type="submit" value="Guardar Proveedor">
+      <h4>Iniciar sesion</h4>
+      {% csrf_token %}
+      {{ form | crispy }}
+      <input class="botons" type="submit" value="Iniciar sesion">
+      <p><a href="{% url 'registro' %}">¿No tengo cuenta?</a></p>
   
   
     </section>

@@ -9,11 +9,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+  
+
 </head>
 <body>
-    <h2>Pagina inicial</h2>
-
     
+    <form action="">
+
+        <section class="form-register">
+
+            {% if perms.app.add_proveedor %}
+            <li><a href="{% url 'proveedor' %}">Agregar proveedor</a></li>
+            {% endif %}
+
+            {% if perms.app.add_producto %}
+            <li><a href="{% url 'producto' %}">agregar producto</a></li>
+            {% endif %}
+
+            {% if perms.app.add_receta %}
+            <li><a href="{% url 'receta' %}">agregar Receta</a></li>
+            {% endif%}
+
+            <input class="botons" type="submit" value="Menu cliente">
+          
+      
+      
+        </section>
+      
+        
+      
+      
+      
+      
+      </form>
+    
+    
+
+
+  
+
+
 
     
 </body>

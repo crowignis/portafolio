@@ -10,10 +10,12 @@
   margin: 0 auto;
 }
 
-
 header {
-  background: #1f53c5;
+
+  background-image: url("../img/LOGO.png"); ;
+  background-size: 30%;
 }
+
 
 header::after {
   content: '';
@@ -27,7 +29,7 @@ nav {
 
 nav ul {
 
-  margin: 0;
+  margin: 3;
   padding: 0;
   list-style: none;
 
@@ -41,7 +43,7 @@ nav li{
 }
 
 nav a{
-color: black;
+color: rgb(255, 254, 254);
 text-decoration: black;
 text-transform: uppercase;
 font-size: larger;
@@ -50,7 +52,8 @@ font-size: larger;
 
 body {
   
-  background: url("../img/fondo.jpg");
+  background: url("../img/fondo2.jpg");
+  background-size: 100%;
 }
 
 .form-register {
